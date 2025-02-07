@@ -138,13 +138,12 @@ inline int ssd1306_get_font(uint8_t character)
   if (character >= 'A' && character <= 'Z') {
     return character - 'A' + 1;
   }
+  else if (character >= 'a' && character <= 'z') {
+    return character - 'a' + 27;
+  }
   else if (character >= '0' && character <= '9') {
-    return character - '0' + 27;
-  }
-  // mapeando as letras minúsculas
-  else if(character >= 'a' && character <= 'z'){
-    return character - 'a' + 37;
-  }
+    return character - '0' + 53;
+  }else if(character == ':') return 63;
   else
     return 0;
 }
@@ -156,8 +155,6 @@ void ssd1306_draw_char(uint8_t *ssd, int16_t x, int16_t y, uint8_t character) {
     }
 
     y = y / 8;
-
-    character = toupper(character);
     int idx = ssd1306_get_font(character);
     int fb_idx = y * 128 + x;
 
@@ -171,7 +168,6 @@ void ssd1306_draw_string(uint8_t *ssd, int16_t x, int16_t y, char *string) {
     if (x > ssd1306_width - 8 || y > ssd1306_height - 8) {
         return;
     }
-
     while (*string) {
         ssd1306_draw_char(ssd, x, y, *string++);
         x += 8;
