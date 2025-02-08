@@ -35,10 +35,15 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(tarefa_03_02 tarefa_03_02.c )
+add_executable(tarefa_03_02 tarefa_03_02.c matriz_leds.c inc/ssd1306_i2c.c)
 
 pico_set_program_name(tarefa_03_02 "tarefa_03_02")
 pico_set_program_version(tarefa_03_02 "0.1")
+
+# Generate PIO header
+pico_generate_pio_header(${CMAKE_PROJECT_NAME} ${CMAKE_CURRENT_LIST_DIR}/pio_matrix.pio)
+
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE tarefa_03_02.c)
 
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(tarefa_03_02 1)
@@ -55,7 +60,9 @@ target_include_directories(tarefa_03_02 PRIVATE
 
 # Add any user requested libraries
 target_link_libraries(tarefa_03_02 
-        
+        hardware_pio
+        hardware_clocks
+        hardware_i2c
         )
 
 pico_add_extra_outputs(tarefa_03_02)
