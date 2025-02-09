@@ -250,6 +250,12 @@ int main() {
 
     char caractere;
 
+    // Iniciar o display apagado
+    // zera o display inteiro
+    uint8_t ssd[ssd1306_buffer_length];
+    memset(ssd, 0, ssd1306_buffer_length);
+    render_on_display(ssd, &frame_area);
+
     while (true) {
         // lendo o caractere pelo monitor serial:
         scanf(" %c", &caractere);
